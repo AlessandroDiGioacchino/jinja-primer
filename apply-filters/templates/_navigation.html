@@ -1,0 +1,17 @@
+
+<!--
+  When you use url_for(), Flask creates the full URL to the given view for you.
+    So even when you decide to change the route to one of your pages, the
+  navigation menu will still work.
+-->
+<nav>
+{% for menu_item in ["home", "results"] %}
+  <!--
+      You use filters, such as |upper, to transform data in your templates
+    independently from your back end. When applying a filter to a variable, you
+    can change the variable's value for the user without changing any
+    underlying data structure.
+  -->
+  <a href="{{ url_for(menu_item) }}">{{ menu_item|upper }}</a>
+{% endfor %}
+</nav>
