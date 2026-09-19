@@ -1,4 +1,10 @@
 
+>   There will always be edge cases where you must decide if you add code
+> directly to your template, defer it to an included template, or create a
+> macro instead. If your template code wrestles too much with your data
+> structures, then it might even be a sign that your code logic belongs to the
+> back end of your app.
+
 # Jinja Primer
 
 A beginner-friendly project for learning Jinja2 templating in Python.
