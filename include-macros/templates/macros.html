@@ -1,0 +1,66 @@
+
+{% macro light_or_dark_mode( element ) %}
+
+  <!--
+      We’re using Flask’s request object to read the request parameters. The
+    request object is present in your template’s context by default.
+  -->
+  {% if request.args.get( 'mode' ) == 'dark' %}
+
+    <!--
+        If the dark mode parameter exists in a GET request, then we show a link
+      with the option to switch to the light mode and add the style tag to the
+      template.
+    -->
+    <a href="{{ request.path }}">Switch to light mode</a>
+    <style>
+      {{ element }} {
+        background-color: #212F3C;
+        color: #FFFFF0;
+      }
+      {{ element }} a {
+        color: #00BFFF !important;
+      }
+    </style>
+  {% else %}
+    <!--
+        Without any dark mode parameters, we show a link that toggles to the
+      dark theme.
+    -->
+    <a href="{{ request.path }}?mode=dark">Switch to dark mode</a>
+  {% endif %}
+{% endmacro %}
+
+
+{% macro add_badge( student, students ) %}
+  {% set high_score = students|map( attribute='score' )|max %}
+
+  {% if student.score == high_score %}
+    ⭐️
+  {% elif student.score > 80 %}
+    🙂
+  {% else %}
+    🙁
+  {% endif %}
+{% endmacro %}
+
+
+{% macro nav_link( menu_item ) %}
+  <!--
+      Additionally, we check for the color mode. If "dark" is part of the GET
+    request, then "?mode=dark" will be added to the menu link. Without checking
+    and adding the mode, we'd switch to the light theme every time you click
+    the link, because "?mode=dark" wouldn’t be part of the link.
+  -->
+  {% set mode = '?mode=dark' if request.args.get( 'mode' ) == 'dark' else '' %}
+  <a href='{{ url_for(menu_item) }}{{ mode }}'>{{ menu_item|upper }}</a>
+
+  <!--
+      Our nav_link() macro takes the menu item as an argument. If menu_item
+    matches the current endpoint, then your macro renders an arrow in addition
+    to the menu item link.
+  -->
+  {% if request.endpoint == menu_item %}
+    ←
+  {% endif %}
+{% endmacro %}
